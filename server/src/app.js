@@ -1,9 +1,11 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 
 const app = express();
 
 // Middleware
+app.use(cookieParser());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
@@ -14,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json({ message: "Welcome To API!" });
 });
+app.use("/api/auth", require("./routes/authRoutes"));
 
 // Error handler
 const errorHandler = require("./middleware/errorHandler");
