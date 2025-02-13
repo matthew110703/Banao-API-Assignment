@@ -61,3 +61,40 @@ module.exports.resetPasswordValidator = [
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),
 ];
+
+module.exports.updateUserValidator = [
+  body("fullname")
+    .optional()
+    .isLength({ min: 3, max: 50 })
+    .withMessage("Full name must be between 3 to 50 characters"),
+  body("bio")
+    .optional()
+    .isLength({ max: 200 })
+    .withMessage("Bio must be at most 200 characters"),
+  body("gender")
+    .optional()
+    .isIn(["male", "female", "other"])
+    .withMessage("Gender must be one of type male, female and other."),
+  body("newEmail").optional().isEmail().withMessage("Invalid Email"),
+  body("newUsername")
+    .optional()
+    .isLength({ min: 3, max: 20 })
+    .withMessage("Username must be between 3 to 20 characters"),
+
+  body().custom((value, { req }) => {
+    if (Object.keys(req.body).length === 0) {
+      throw new Error("At least one field is required");
+    }
+    return true;
+  }),
+];
+
+module.exports.createPostValidator = [
+  body("content")
+    .notEmpty()
+    .withMessage("Content is required")
+    .isLength({ min: 5, max: 1000 })
+    .withMessage("Content must be between 5 to 1000 characters"),
+
+  body("tags").optional().isArray().withMessage("Tags must be an array"),
+];

@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 
 // Model
 const User = require("../models/userSchema");
+const UserProfile = require("../models/userProfileSchema");
 
 // Validators
 const { validationResult, matchedData } = require("express-validator");
@@ -34,6 +35,8 @@ module.exports.signUp = async (req, res, next) => {
       email,
       password: hashedPassword,
     });
+    // Create new user profile
+    await UserProfile.create({ user: newUser._id });
 
     // Generate access & refresh token
     const accessToken = jwt.sign(
@@ -88,7 +91,7 @@ module.exports.login = async (req, res, next) => {
     const accessToken = jwt.sign(
       { id: user._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "5m" }
+      { expiresIn: "15m" }
     );
 
     const refreshToken = jwt.sign(
@@ -135,7 +138,7 @@ module.exports.refreshToken = async (req, res, next) => {
     const accessToken = jwt.sign(
       { id: decoded.id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "5m" }
+      { expiresIn: "15m" }
     );
 
     // (Optional) Regenerate a new refresh token for security
@@ -150,6 +153,7 @@ module.exports.refreshToken = async (req, res, next) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // Secure in production
       sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     return res.json({
