@@ -98,3 +98,12 @@ module.exports.createPostValidator = [
 
   body("tags").optional().isArray().withMessage("Tags must be an array"),
 ];
+
+module.exports.updatePostValidator = [
+  body("content")
+    .optional()
+    .isLength({ min: 5, max: 1000 })
+    .withMessage("Content must be between 5 to 1000 characters"),
+
+  body("tags").optional().isArray().withMessage("Tags must be an array"),
+];

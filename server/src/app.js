@@ -17,6 +17,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome To API!" });
 });
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/user", require("./routes/userRoutes"));
+app.use("/api/posts", require("./routes/postRoutes"));
+app.use("/api/comments", require("./routes/commentRoutes"));
 
 // Error handler
 const errorHandler = require("./middleware/errorHandler");
