@@ -1,10 +1,21 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
+const cors = require("cors");
+const helmet = require("helmet");
+const sanitize = require("express-mongo-sanitize");
 
 const app = express();
 
 // Middleware
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.use(helmet());
+app.use(sanitize());
 app.use(cookieParser());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));

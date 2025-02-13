@@ -1,5 +1,3 @@
-const path = require("path");
-
 // Models
 const Post = require("../models/postSchema");
 const User = require("../models/userSchema");
@@ -167,6 +165,22 @@ module.exports.deletePost = async (req, res, next) => {
           .status(500)
           .json({ error: "Failed to delete image from Supabase" });
       }
+    }
+
+    // Get post from users liked posts and saved posts
+    const profiles = await UserProfile.find({
+      $or: [{ likedPosts: post._id }, { savedPosts: post._id }],
+    });
+
+    // Remove post from all user profiles
+    for (const profile of profiles) {
+      profile.likedPosts = profile.likedPosts.filter(
+        (postId) => postId.toString() !== post._id.toString()
+      );
+      profile.savedPosts = profile.savedPosts.filter(
+        (postId) => postId.toString() !== post._id.toString()
+      );
+      await profile.save();
     }
 
     await post.deleteOne();

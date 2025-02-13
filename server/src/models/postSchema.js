@@ -1,30 +1,5 @@
 const mongoose = require("mongoose");
-
-const tags = [
-  "general",
-  "technology",
-  "health",
-  "science",
-  "sports",
-  "entertainment",
-  "business",
-  "politics",
-  "education",
-  "travel",
-  "food",
-  "lifestyle",
-  "fashion",
-  "culture",
-  "music",
-  "movies",
-  "books",
-  "art",
-  "memes",
-  "gaming",
-  "work",
-  "coding",
-  "design",
-];
+const { tags } = require("../lib/helper");
 
 const postSchema = new mongoose.Schema(
   {

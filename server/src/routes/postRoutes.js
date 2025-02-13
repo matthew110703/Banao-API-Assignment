@@ -28,6 +28,13 @@ const {
 // Routes
 const postRoutes = express.Router();
 
+// Misc
+const { tags } = require("../lib/helper");
+postRoutes.route("/tags").get((req, res) => {
+  console.log(tags);
+  res.json({ tags });
+});
+
 postRoutes
   .route("/")
   .get(getAllPosts) // Public route
