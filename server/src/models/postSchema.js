@@ -1,5 +1,31 @@
 const mongoose = require("mongoose");
 
+const tags = [
+  "general",
+  "technology",
+  "health",
+  "science",
+  "sports",
+  "entertainment",
+  "business",
+  "politics",
+  "education",
+  "travel",
+  "food",
+  "lifestyle",
+  "fashion",
+  "culture",
+  "music",
+  "movies",
+  "books",
+  "art",
+  "memes",
+  "gaming",
+  "work",
+  "coding",
+  "design",
+];
+
 const postSchema = new mongoose.Schema(
   {
     user: {
@@ -15,6 +41,12 @@ const postSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    tags: {
+      type: [String],
+      enum: tags,
+      default: ["general"],
+      maxlength: 5,
+    },
     likes: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "User",
@@ -27,5 +59,7 @@ const postSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+postSchema.index({ user: 1, createdAt: -1, _id: 1, tags: 1 });
 
 module.exports = mongoose.model("Post", postSchema);

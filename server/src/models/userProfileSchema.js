@@ -7,16 +7,6 @@ const userProfileSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    following: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "User",
-      default: [],
-    },
-    followers: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "User",
-      default: [],
-    },
     posts: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Post",
@@ -35,5 +25,7 @@ const userProfileSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userProfileSchema.index({ user: 1 });
 
 module.exports = mongoose.model("UserProfile", userProfileSchema);
