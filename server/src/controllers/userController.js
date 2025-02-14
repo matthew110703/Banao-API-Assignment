@@ -43,7 +43,7 @@ module.exports.updateCurrentUser = async (req, res, next) => {
 
   try {
     const { id } = req.user;
-    const { fullname, bio, gender, newEmail, newUsername } = matchedData(req);
+    const { newEmail, newUsername } = matchedData(req);
 
     const existingUser = await User.findOne({
       $or: [{ email: newEmail }, { username: newUsername }],
@@ -57,11 +57,8 @@ module.exports.updateCurrentUser = async (req, res, next) => {
     const user = await User.findByIdAndUpdate(
       id,
       {
-        fullname,
         email: newEmail,
         username: newUsername,
-        bio,
-        gender,
       },
       { new: true }
     );

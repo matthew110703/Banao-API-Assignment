@@ -18,19 +18,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
     },
-    fullname: {
-      type: String,
-      required: [true, "Full name is required"],
-    },
-    bio: {
-      type: String,
-      default: "",
-    },
-    gender: {
-      type: String,
-      enum: ["male", "female", "other"],
-      required: false,
-    },
   },
   { timestamps: true }
 );

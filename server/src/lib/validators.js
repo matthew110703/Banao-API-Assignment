@@ -1,11 +1,6 @@
-const { body, query } = require("express-validator");
+const { body } = require("express-validator");
 
 module.exports.signUpValidator = [
-  body("fullname")
-    .notEmpty()
-    .withMessage("Full name is required")
-    .isLength({ min: 3, max: 50 })
-    .withMessage("Full name must be between 3 to 50 characters"),
   body("username")
     .notEmpty()
     .withMessage("Username is required")
@@ -63,18 +58,6 @@ module.exports.resetPasswordValidator = [
 ];
 
 module.exports.updateUserValidator = [
-  body("fullname")
-    .optional()
-    .isLength({ min: 3, max: 50 })
-    .withMessage("Full name must be between 3 to 50 characters"),
-  body("bio")
-    .optional()
-    .isLength({ max: 200 })
-    .withMessage("Bio must be at most 200 characters"),
-  body("gender")
-    .optional()
-    .isIn(["male", "female", "other"])
-    .withMessage("Gender must be one of type male, female and other."),
   body("newEmail").optional().isEmail().withMessage("Invalid Email"),
   body("newUsername")
     .optional()

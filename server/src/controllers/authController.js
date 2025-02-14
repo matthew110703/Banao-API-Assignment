@@ -17,7 +17,7 @@ module.exports.signUp = async (req, res, next) => {
   }
 
   try {
-    const { fullname, username, email, password } = matchedData(req);
+    const { username, email, password } = matchedData(req);
 
     // Check if user already exists
     const user = await User.findOne({ $or: [{ email }, { username }] });
@@ -30,7 +30,6 @@ module.exports.signUp = async (req, res, next) => {
 
     // Create new user
     const newUser = await User.create({
-      fullname,
       username,
       email,
       password: hashedPassword,
