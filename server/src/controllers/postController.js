@@ -13,7 +13,7 @@ const { validationResult, matchedData } = require("express-validator");
 /** Get Posts and Users */
 module.exports.getAllPosts = async (req, res, next) => {
   try {
-    const { page = 1, limit = 10, tag, search, userId } = req.query;
+    const { page = 1, limit = 50, tag, search } = req.query;
 
     // Filters
     let users = [];
@@ -21,11 +21,7 @@ module.exports.getAllPosts = async (req, res, next) => {
     if (tag) query.tags = tag;
     if (search) {
       query.content = { $regex: search, $options: "i" };
-      users = await User.find({
-        username: { $regex: search, $options: "i" },
-      });
     }
-    if (userId) query.user = userId;
 
     const posts = await Post.find(query)
       .populate("user", "username email")
@@ -75,8 +71,8 @@ module.exports.createPost = async (req, res, next) => {
           .json({ error: "Failed to upload image to Supabase" });
       }
       post.image = imageUrl;
-      await post.save();
     }
+    await post.save();
 
     res.json({ success: true, message: "Post created successfully", post });
   } catch (error) {

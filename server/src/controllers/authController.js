@@ -90,7 +90,7 @@ module.exports.login = async (req, res, next) => {
     const accessToken = jwt.sign(
       { id: user._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "1d" }
     );
 
     const refreshToken = jwt.sign(
@@ -137,7 +137,7 @@ module.exports.refreshToken = async (req, res, next) => {
     const accessToken = jwt.sign(
       { id: decoded.id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "1d" }
     );
 
     // (Optional) Regenerate a new refresh token for security
