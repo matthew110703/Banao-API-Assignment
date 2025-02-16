@@ -41,12 +41,14 @@ const PostCard = ({
         <p className="border-b p-2 text-start text-sm font-light shadow-lg">
           {content}
         </p>
-        <img
-          src={image}
-          alt="post"
-          className="max-h-[400px] w-full bg-gray-200"
-          style={{ objectFit: "contain" }}
-        />
+        {image && (
+          <img
+            src={image}
+            alt="post"
+            className="max-h-[400px] w-full bg-gray-200"
+            style={{ objectFit: "contain" }}
+          />
+        )}
       </main>
 
       <footer className="flex gap-4 border-t p-4">
